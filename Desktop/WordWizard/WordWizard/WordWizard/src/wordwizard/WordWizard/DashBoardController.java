@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
- * @author Ovi
+ * @author Mahpa
  */
 public class DashBoardController implements Initializable {
 
@@ -29,7 +29,7 @@ public class DashBoardController implements Initializable {
     private Button LetsPlay;
 
     /**
-     * Initializes the controller class. this is first test.
+     * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
