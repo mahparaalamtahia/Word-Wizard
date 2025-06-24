@@ -29,7 +29,7 @@ public class DashBoardController implements Initializable {
     private Button LetsPlay;
 
     /**
-     * Initializes the controller class.
+     * Initializes the controller class. this is first test.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
