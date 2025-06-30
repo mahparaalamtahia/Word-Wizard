@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" fx:id="AccID" prefHeight="405.0" prefWidth="693.0" style="-fx-border-color: green; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wordwizard.WordWizard.HomeController">
+   <children>
+      <Text fx:id="textW" layoutX="316.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="223.13671875" />
+      <Hyperlink fx:id="LOGOUT" layoutX="612.0" layoutY="17.0" text="Log out" textAlignment="CENTER" />
+      <Accordion />
+      <Accordion layoutX="-401.0" layoutY="-262.0">
+        <panes>
+          <TitledPane animated="false" text="untitled 1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+          <TitledPane animated="false" text="untitled 3">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </TitledPane>
+        </panes>
+      </Accordion>
+      <Accordion layoutX="-269.0" layoutY="3.0">
+        <panes>
+          <TitledPane animated="false" text="untitled 1" />
+        </panes>
+      </Accordion>
+      <Line endX="-85.0" endY="384.0" layoutX="221.0" layoutY="32.0" startX="-85.0" startY="-32.0" stroke="GREEN" style="-fx-stroke-width: 2;" />
+      <Text fx:id="History" fill="#616161" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="History" textAlignment="CENTER" wrappingWidth="133.13671875">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
