@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -27,6 +28,8 @@ public class DashBoardController implements Initializable {
     private Text WelSlogan;
     @FXML
     private Button LetsPlay;
+    @FXML
+    private Hyperlink AminPanel;
 
     /**
      * Initializes the controller class.
@@ -48,6 +51,20 @@ public class DashBoardController implements Initializable {
                 e.printStackTrace();
             }
         });
+        
+        AminPanel.setOnAction(event -> {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = (Stage) AminPanel.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Admin Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    });
     }    
     
 }
