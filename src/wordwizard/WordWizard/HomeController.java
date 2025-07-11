@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.text.Text;
@@ -32,6 +33,8 @@ public class HomeController implements Initializable {
     private AnchorPane AccID;
     @FXML
     private Text History;
+    @FXML
+    private Button Start;
 
     /**
      * Initializes the controller class.
@@ -45,6 +48,18 @@ public class HomeController implements Initializable {
             Stage stage = (Stage) LOGOUT.getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.setTitle("Login");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    });
+        Start.setOnAction(event -> {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameDisplay.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) Start.getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Game Display");
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();

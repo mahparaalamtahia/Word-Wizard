@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package wordwizard.WordWizard;
 
 import java.io.IOException;
@@ -24,8 +20,6 @@ import javafx.stage.Stage;
  *
  * @author Mahpa
  */
-
-
 public class AdminPanelController implements Initializable {
 
     @FXML private TextField word;
@@ -36,6 +30,9 @@ public class AdminPanelController implements Initializable {
     @FXML private Button AddWord;
     @FXML private Button EditWord;
     @FXML private Button DeleteWord;
+    @FXML private TextArea Hint1;
+    @FXML private TextArea Hint2;
+    @FXML private TextArea Hint3;
 
     private ObservableList<ObservableList<String>> wordList = FXCollections.observableArrayList();
     private String selectedWordID = null;
@@ -44,32 +41,39 @@ public class AdminPanelController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         setupTable();
         loadWords();
-        
+
         logout.setOnAction(event -> {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("DashBoard.fxml"));
-        Parent root = loader.load();
-        Stage stage = (Stage) logout.getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.setTitle("Admin Login");
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-        showAlert(Alert.AlertType.ERROR, "Failed to load login screen.");
-    }
-});
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("DashBoard.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) logout.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Admin Login");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Failed to load login screen.");
+            }
+        });
 
         wordTable.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 selectedWordID = newSelection.get(0);
                 word.setText(newSelection.get(1));
+                Hint1.setText(newSelection.get(2));
+                Hint2.setText(newSelection.get(3));
+                Hint3.setText(newSelection.get(4));
             }
         });
 
         AddWord.setOnAction(event -> {
             String wordText = word.getText().trim();
-            if (wordText.isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Word cannot be empty.");
+            String hint1Text = Hint1.getText().trim();
+            String hint2Text = Hint2.getText().trim();
+            String hint3Text = Hint3.getText().trim();
+
+            if (wordText.isEmpty() || hint1Text.isEmpty() || hint2Text.isEmpty() || hint3Text.isEmpty()) {
+                showAlert(Alert.AlertType.WARNING, "Word and hints cannot be empty.");
                 return;
             }
 
@@ -82,49 +86,65 @@ public class AdminPanelController implements Initializable {
                 if (rs.next()) {
                     showAlert(Alert.AlertType.INFORMATION, "Word already exists.");
                 } else {
-                    String insertQuery = "INSERT INTO words (word) VALUES (?)";
+                    String insertQuery = "INSERT INTO words (word, Hint1, Hint2, Hint3) VALUES (?, ?, ?, ?)";
                     PreparedStatement insertStmt = conn.prepareStatement(insertQuery);
                     insertStmt.setString(1, wordText);
+                    insertStmt.setString(2, hint1Text);
+                    insertStmt.setString(3, hint2Text);
+                    insertStmt.setString(4, hint3Text);
                     insertStmt.executeUpdate();
 
                     showAlert(Alert.AlertType.INFORMATION, "Word added successfully.");
                     word.clear();
+                    Hint1.clear();
+                    Hint2.clear();
+                    Hint3.clear();
                     loadWords();
                 }
 
                 rs.close();
                 checkStmt.close();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Database error.");
+                showAlert(Alert.AlertType.ERROR, "Database error: " + e.getMessage());
             }
         });
 
         EditWord.setOnAction(event -> {
             String newWord = word.getText().trim();
+            String newHint1 = Hint1.getText().trim();
+            String newHint2 = Hint2.getText().trim();
+            String newHint3 = Hint3.getText().trim();
+
             if (selectedWordID == null) {
                 showAlert(Alert.AlertType.WARNING, "Please select a word to edit.");
                 return;
             }
-            if (newWord.isEmpty()) {
-                showAlert(Alert.AlertType.WARNING, "Word cannot be empty.");
+            if (newWord.isEmpty() || newHint1.isEmpty() || newHint2.isEmpty() || newHint3.isEmpty()) {
+                showAlert(Alert.AlertType.WARNING, "Word and hints cannot be empty.");
                 return;
             }
 
             try (Connection conn = getConnection()) {
-                String updateQuery = "UPDATE words SET word = ? WHERE wordID = ?";
+                String updateQuery = "UPDATE words SET word = ?, Hint1 = ?, Hint2 = ?, Hint3 = ? WHERE wordID = ?";
                 PreparedStatement stmt = conn.prepareStatement(updateQuery);
                 stmt.setString(1, newWord);
-                stmt.setString(2, selectedWordID);
+                stmt.setString(2, newHint1);
+                stmt.setString(3, newHint2);
+                stmt.setString(4, newHint3);
+                stmt.setString(5, selectedWordID);
                 stmt.executeUpdate();
 
                 showAlert(Alert.AlertType.INFORMATION, "Word updated.");
                 word.clear();
+                Hint1.clear();
+                Hint2.clear();
+                Hint3.clear();
                 selectedWordID = null;
                 loadWords();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Update failed.");
+                showAlert(Alert.AlertType.ERROR, "Update failed: " + e.getMessage());
             }
         });
 
@@ -142,11 +162,14 @@ public class AdminPanelController implements Initializable {
 
                 showAlert(Alert.AlertType.INFORMATION, "Word deleted.");
                 word.clear();
+                Hint1.clear();
+                Hint2.clear();
+                Hint3.clear();
                 selectedWordID = null;
                 loadWords();
-            } catch (Exception e) {
+            } catch (SQLException e) {
                 e.printStackTrace();
-                showAlert(Alert.AlertType.ERROR, "Delete failed.");
+                showAlert(Alert.AlertType.ERROR, "Delete failed: " + e.getMessage());
             }
         });
     }
@@ -168,13 +191,17 @@ public class AdminPanelController implements Initializable {
                 ObservableList<String> row = FXCollections.observableArrayList();
                 row.add(String.valueOf(rs.getInt("wordID")));
                 row.add(rs.getString("word"));
+                row.add(rs.getString("Hint1"));
+                row.add(rs.getString("Hint2"));
+                row.add(rs.getString("Hint3"));
                 wordList.add(row);
             }
 
             rs.close();
             stmt.close();
-        } catch (Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Failed to load words: " + e.getMessage());
         }
     }
 

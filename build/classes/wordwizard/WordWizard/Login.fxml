@@ -26,5 +26,11 @@
             <Font size="11.0" />
          </font>
       </Text>
+      <Text fx:id="Back" layoutX="36.0" layoutY="38.0" strokeType="OUTSIDE" strokeWidth="0.0">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Text>
+      <Button fx:id="back" layoutX="36.0" layoutY="19.0" mnemonicParsing="false" text="&lt;-" />
     </children>
 </AnchorPane>

@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -16,9 +17,9 @@
             <Font size="16.0" />
          </font>
       </Text>
-      <TextField fx:id="word" layoutX="305.0" layoutY="70.0" prefHeight="36.0" prefWidth="149.0" promptText="Word" />
+      <TextField fx:id="word" layoutX="393.0" layoutY="82.0" prefHeight="36.0" prefWidth="149.0" promptText="Word" />
       <Hyperlink fx:id="logout" layoutX="682.0" layoutY="14.0" text="Logout" />
-      <TableView fx:id="wordTable" layoutX="230.0" layoutY="129.0" prefHeight="200.0" prefWidth="305.0">
+      <TableView fx:id="wordTable" layoutX="14.0" layoutY="82.0" prefHeight="200.0" prefWidth="305.0">
         <columns>
           <TableColumn fx:id="WordID" prefWidth="75.0" text="Word ID" />
           <TableColumn fx:id="words" prefWidth="75.0" text="Words" />
@@ -30,5 +31,8 @@
       <Button fx:id="AddWord" layoutX="275.0" layoutY="339.0" mnemonicParsing="false" text="Add Word" />
       <Button fx:id="EditWord" layoutX="357.0" layoutY="339.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Edit" />
       <Button fx:id="DeleteWord" layoutX="432.0" layoutY="339.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" text="Delete" />
+      <TextArea fx:id="Hint1" layoutX="393.0" layoutY="127.0" prefHeight="46.0" prefWidth="149.0" promptText="Hint-1" />
+      <TextArea fx:id="Hint2" layoutX="393.0" layoutY="182.0" prefHeight="46.0" prefWidth="149.0" promptText="Hint-2" />
+      <TextArea fx:id="Hint3" layoutX="393.0" layoutY="239.0" prefHeight="46.0" prefWidth="149.0" promptText="Hint-3" />
    </children>
 </AnchorPane>
