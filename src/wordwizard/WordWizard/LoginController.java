@@ -57,6 +57,10 @@ public class LoginController implements Initializable {
     private void handleLogin() {
         String username = UserNameL.getText().trim();
         String password = passwordIL.getText();
+        
+        Session session = new Session();
+        session.setUsername(username);
+        System.out.println(username);
 
         if (username.isEmpty() || password.isEmpty()) {
             Warnigs.setText("Please enter both username and password.");
@@ -78,11 +82,6 @@ public class LoginController implements Initializable {
                 // Optional: pass username to dashboard
                 HomeController controller = loader.getController();
                 controller.setProfileName(username);  // Ensure setProfileName() is in DashBoardController
-                
-                Session session = new Session();
-                session.setUsername(username);
-                System.out.println(username);
-                
                 Stage stage = (Stage) LoginbuttonL.getScene().getWindow();
                 stage.setScene(new Scene(root));
                 stage.setTitle("Dashboard");

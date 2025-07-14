@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -33,12 +32,31 @@
           <TitledPane animated="false" text="untitled 1" />
         </panes>
       </Accordion>
-      <Line endX="-85.0" endY="384.0" layoutX="221.0" layoutY="32.0" startX="-85.0" startY="-32.0" stroke="GREEN" style="-fx-stroke-width: 2;" />
       <Text fx:id="History" fill="#616161" layoutY="18.0" strokeType="OUTSIDE" strokeWidth="0.0" text="History" textAlignment="CENTER" wrappingWidth="133.13671875">
          <font>
             <Font name="System Bold" size="15.0" />
          </font>
       </Text>
       <Button fx:id="Start" layoutX="316.0" layoutY="170.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="173.0" text="Start Gaame" />
+      <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Correct Guesses: " wrappingWidth="160.13671875">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text layoutX="14.0" layoutY="95.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Wrong Guesses: " wrappingWidth="160.13671875">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text fx:id="CorrectGuess" layoutX="192.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100" wrappingWidth="110.4609375">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
+      <Text fx:id="WrongGuess" layoutX="192.0" layoutY="94.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100" wrappingWidth="110.4609375">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>

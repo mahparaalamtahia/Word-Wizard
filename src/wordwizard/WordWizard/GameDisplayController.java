@@ -36,11 +36,17 @@ public class GameDisplayController implements Initializable {
     private Button submit;
     @FXML
     private Button TryAgain;
+    @FXML
+    private Text Hints2;
+    @FXML
+    private Text Hints1;
 
     private String currentWord;
     private int currentWordID;
     private String username;
     private Connection connection;
+    @FXML
+    private Text WorngAns;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -52,7 +58,7 @@ public class GameDisplayController implements Initializable {
         username = session.getUsername();
         System.out.println("Username: " + username); // Debug log
 
-        // Load a new word and hint
+        // Load a new word and hints
         loadNewWord();
 
         // Set up button actions
@@ -70,7 +76,7 @@ public class GameDisplayController implements Initializable {
             System.out.println("Database connected successfully");
         } catch (SQLException e) {
             e.printStackTrace();
-            setHintText("Error connecting to database: " + e.getMessage());
+            setHintText("Error connecting to database: " + e.getMessage(), Hints);
         }
     }
 
@@ -79,7 +85,7 @@ public class GameDisplayController implements Initializable {
             // Get all word IDs that the user hasn't answered correctly
             List<Integer> availableWordIDs = getAvailableWordIDs();
             if (availableWordIDs.isEmpty()) {
-                setHintText("Congratulations! You've answered all words correctly!");
+                setHintText("Congratulations! You've answered all words correctly!", Hints);
                 submit.setDisable(true);
                 TryAgain.setDisable(true);
                 System.out.println("No available words to display");
@@ -91,42 +97,31 @@ public class GameDisplayController implements Initializable {
             currentWordID = availableWordIDs.get(random.nextInt(availableWordIDs.size()));
             System.out.println("Selected wordID: " + currentWordID); // Debug log
 
-            // Get word and random hint
+            // Get word and all hints
             String query = "SELECT word, Hint1, Hint2, Hint3 FROM words WHERE wordID = ?";
             PreparedStatement stmt = connection.prepareStatement(query);
             stmt.setInt(1, currentWordID);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
+                WorngAns.setText("");
                 currentWord = rs.getString("word");
                 String hint1 = rs.getString("Hint1");
                 String hint2 = rs.getString("Hint2");
                 String hint3 = rs.getString("Hint3");
                 System.out.println("Word: " + currentWord + ", Hints: " + hint1 + ", " + hint2 + ", " + hint3); // Debug log
 
-                // Ensure hints are not null or empty
-                List<String> hints = new ArrayList<>();
-                if (hint1 != null && !hint1.trim().isEmpty()) hints.add(hint1);
-                if (hint2 != null && !hint2.trim().isEmpty()) hints.add(hint2);
-                if (hint3 != null && !hint3.trim().isEmpty()) hints.add(hint3);
-
-                if (hints.isEmpty()) {
-                    setHintText("No valid hints available for this word");
-                    System.out.println("No valid hints found for wordID: " + currentWordID);
-                    return;
-                }
-
-                // Select random hint
-                String selectedHint = hints.get(random.nextInt(hints.size()));
-                setHintText(selectedHint);
-                System.out.println("Displaying hint: " + selectedHint);
+                // Set hints to respective Text fields, checking for null or empty
+                setHintText(hint1 != null && !hint1.trim().isEmpty() ? hint1 : "No hint available", Hints1);
+                setHintText(hint2 != null && !hint2.trim().isEmpty() ? hint2 : "No hint available", Hints2);
+                setHintText(hint3 != null && !hint3.trim().isEmpty() ? hint3 : "No hint available", Hints);
             } else {
-                setHintText("Error: Word not found for ID " + currentWordID);
+                setHintText("Error: Word not found for ID " + currentWordID, Hints);
                 System.out.println("No word found for wordID: " + currentWordID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            setHintText("Error loading word: " + e.getMessage());
+            setHintText("Error loading word: " + e.getMessage(), Hints);
             System.out.println("SQL Error in loadNewWord: " + e.getMessage());
         }
     }
@@ -162,7 +157,7 @@ public class GameDisplayController implements Initializable {
     private void checkAnswer() {
         String userAnswer = answer.getText().trim().toLowerCase();
         if (userAnswer.isEmpty()) {
-            setHintText("Please enter an answer");
+            setHintText("Please enter an answer", Hints);
             return;
         }
 
@@ -181,16 +176,16 @@ public class GameDisplayController implements Initializable {
 
             // Display result and handle next steps
             if (isCorrect) {
-                setHintText("Correct! Loading new word...");
+                setHintText("Correct! Loading new word...", Hints);
                 answer.clear();
                 loadNewWord();
             } else {
-                setHintText("Incorrect. Try again or click 'Try Again' for a new word.");
+                WorngAns.setText("Incorrect. Try again or click 'Try Again' for a new word.");
                 TryAgain.setDisable(false);
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            setHintText("Error saving result: " + e.getMessage());
+            setHintText("Error saving result: " + e.getMessage(), Hints);
             System.out.println("SQL Error in checkAnswer: " + e.getMessage());
         }
     }
@@ -198,13 +193,13 @@ public class GameDisplayController implements Initializable {
     private void tryAgain() {
         answer.clear();
         TryAgain.setDisable(true);
-        setHintText("Loading new word...");
+        setHintText("Loading new word...", Hints);
         loadNewWord();
         System.out.println("Try Again triggered, new word loaded"); // Debug log
     }
 
     // Helper method to update hint text on JavaFX thread
-    private void setHintText(String text) {
-        Platform.runLater(() -> Hints.setText(text));
+    private void setHintText(String text, Text target) {
+        Platform.runLater(() -> target.setText(text));
     }
 }
