@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="AccID" prefHeight="405.0" prefWidth="693.0" style="-fx-border-color: green; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wordwizard.WordWizard.HomeController">
+<AnchorPane id="AnchorPane" fx:id="AccID" prefHeight="405.0" prefWidth="693.0" style="-fx-border-color: green; -fx-border-width: 2;" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="wordwizard.WordWizard.HomeController">
    <children>
       <Text fx:id="textW" layoutX="316.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="223.13671875" />
       <Hyperlink fx:id="LOGOUT" layoutX="612.0" layoutY="17.0" text="Log out" textAlignment="CENTER" />
@@ -37,7 +37,7 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Text>
-      <Button fx:id="Start" layoutX="316.0" layoutY="170.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="173.0" text="Start Gaame" />
+      <Button fx:id="Start" layoutX="295.0" layoutY="232.0" mnemonicParsing="false" prefHeight="82.0" prefWidth="173.0" text="Start Gaame" />
       <Text layoutX="14.0" layoutY="57.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total Correct Guesses: " wrappingWidth="160.13671875">
          <font>
             <Font name="System Bold" size="15.0" />
@@ -58,5 +58,6 @@
             <Font name="System Bold" size="15.0" />
          </font>
       </Text>
+      <Button fx:id="LeaderBoard" layoutX="42.0" layoutY="340.0" mnemonicParsing="false" text="Leader Board" />
    </children>
 </AnchorPane>

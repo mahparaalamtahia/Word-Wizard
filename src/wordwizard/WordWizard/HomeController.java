@@ -45,6 +45,8 @@ public class HomeController implements Initializable {
     private final String DB_URL = "jdbc:mysql://localhost:3306/wordwizard?useSSL=false&serverTimezone=UTC";
     private final String DB_USER = "root";
     private final String DB_PASS = "";
+    @FXML
+    private Button LeaderBoard;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -69,6 +71,19 @@ public class HomeController implements Initializable {
             } catch (IOException e) {
                 e.printStackTrace();
                 showErrorAlert("Navigation Error", "Failed to load Login screen.");
+            }
+        });
+        LeaderBoard.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) LeaderBoard.getScene().getWindow();
+                stage.setScene(new Scene(root));
+                stage.setTitle("Leaderboard");
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                showErrorAlert("Navigation Error", "Failed to load Leaderboard screen.");
             }
         });
 

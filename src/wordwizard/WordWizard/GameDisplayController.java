@@ -4,6 +4,7 @@
  */
 package wordwizard.WordWizard;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,10 +17,15 @@ import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class for Word Wizard game
@@ -47,6 +53,8 @@ public class GameDisplayController implements Initializable {
     private Connection connection;
     @FXML
     private Text WorngAns;
+    @FXML
+    private Button back;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,6 +72,23 @@ public class GameDisplayController implements Initializable {
         // Set up button actions
         submit.setOnAction(event -> checkAnswer());
         TryAgain.setOnAction(event -> tryAgain());
+        back.setOnAction(event -> {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
+                Parent root = loader.load();
+                Stage stage = (Stage) back.getScene().getWindow();
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Navigation Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to load the Home screen.");
+                alert.showAndWait();
+            }
+        });
     }
 
     private void initializeDatabase() {
