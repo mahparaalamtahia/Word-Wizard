@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
@@ -13,28 +18,61 @@
             <Font size="21.0" />
          </font>
       </Text>
+      <ComboBox fx:id="levelSelector" layoutX="39.0" layoutY="20.0" prefWidth="150.0" promptText="Select Difficulty" />
       <TextField fx:id="answer" layoutX="188.0" layoutY="242.0" prefHeight="35.0" prefWidth="183.0" promptText="Answer" />
       <Button fx:id="submit" layoutX="245.0" layoutY="295.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="67.0" text="Submit" />
       <Button fx:id="TryAgain" layoutX="246.0" layoutY="329.0" mnemonicParsing="false" text="Try Again" />
-      <Text fx:id="Hints" layoutX="86.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="420.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="Hints1" layoutX="86.0" layoutY="130.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="420.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text fx:id="Hints2" layoutX="86.0" layoutY="157.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="420.0">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Text>
-      <Text layoutX="39.0" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint 1" />
-      <Text layoutX="39.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint 2" />
-      <Text layoutX="39.0" layoutY="156.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hint 3" />
+      <VBox layoutX="39.0" layoutY="80.0" spacing="10.0">
+         <children>
+            <HBox fx:id="hint1Box" spacing="10.0" visible="false">
+               <children>
+                  <Text fx:id="Hint1Label" style="-fx-font-weight: bold; -fx-fill: #333333;" text="Hint 1:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Hints1" style="-fx-fill: #555555;" wrappingWidth="400.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="hint2Box" spacing="10.0" visible="false">
+               <children>
+                  <Text fx:id="Hint2Label" style="-fx-font-weight: bold; -fx-fill: #333333;" text="Hint 2:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Hints2" style="-fx-fill: #555555;" wrappingWidth="400.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+            <HBox fx:id="hint3Box" spacing="10.0" visible="false">
+               <children>
+                  <Text fx:id="Hint3Label" style="-fx-font-weight: bold; -fx-fill: #333333;" text="Hint 3:">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text fx:id="Hints" style="-fx-fill: #555555;" wrappingWidth="400.0">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+               </children>
+            </HBox>
+         </children>
+      </VBox>
       <Text fx:id="WorngAns" fill="#e10606" layoutX="68.0" layoutY="216.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="407.0" />
-      <Button fx:id="back" layoutX="27.0" layoutY="365.0" mnemonicParsing="false" text="Back" />
+      <ImageView fitHeight="186.0" fitWidth="167.0" layoutX="382.0" layoutY="91.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../images/WhatsApp%20Image%202025-07-25%20at%2023.44.37_cf83cc4d.jpg" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

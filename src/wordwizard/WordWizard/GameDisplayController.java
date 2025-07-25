@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package wordwizard.WordWizard;
 
-import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,16 +11,14 @@ import java.util.List;
 import java.util.Random;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 
 /**
  * FXML Controller class for Word Wizard game
@@ -43,18 +36,30 @@ public class GameDisplayController implements Initializable {
     @FXML
     private Button TryAgain;
     @FXML
+    private Text Hints1;
+    @FXML
     private Text Hints2;
     @FXML
-    private Text Hints1;
+    private Text Hint1Label;
+    @FXML
+    private Text Hint2Label;
+    @FXML
+    private Text Hint3Label;
+    @FXML
+    private ComboBox<String> levelSelector;
+    @FXML
+    private HBox hint1Box;
+    @FXML
+    private HBox hint2Box;
+    @FXML
+    private HBox hint3Box;
+    @FXML
+    private Text WorngAns;
 
     private String currentWord;
     private int currentWordID;
     private String username;
     private Connection connection;
-    @FXML
-    private Text WorngAns;
-    @FXML
-    private Button back;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -66,29 +71,17 @@ public class GameDisplayController implements Initializable {
         username = session.getUsername();
         System.out.println("Username: " + username); // Debug log
 
+        // Initialize level selector
+        levelSelector.setItems(FXCollections.observableArrayList("Hard", "Normal", "Easy"));
+        levelSelector.setValue("Easy"); // Default to Easy
+        levelSelector.setOnAction(event -> updateHintVisibility());
+
         // Load a new word and hints
         loadNewWord();
 
         // Set up button actions
         submit.setOnAction(event -> checkAnswer());
         TryAgain.setOnAction(event -> tryAgain());
-        back.setOnAction(event -> {
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("Home.fxml"));
-                Parent root = loader.load();
-                Stage stage = (Stage) back.getScene().getWindow();
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException e) {
-                e.printStackTrace();
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Navigation Error");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to load the Home screen.");
-                alert.showAndWait();
-            }
-        });
     }
 
     private void initializeDatabase() {
@@ -140,6 +133,9 @@ public class GameDisplayController implements Initializable {
                 setHintText(hint1 != null && !hint1.trim().isEmpty() ? hint1 : "No hint available", Hints1);
                 setHintText(hint2 != null && !hint2.trim().isEmpty() ? hint2 : "No hint available", Hints2);
                 setHintText(hint3 != null && !hint3.trim().isEmpty() ? hint3 : "No hint available", Hints);
+
+                // Update hint visibility based on level
+                updateHintVisibility();
             } else {
                 setHintText("Error: Word not found for ID " + currentWordID, Hints);
                 System.out.println("No word found for wordID: " + currentWordID);
@@ -149,6 +145,32 @@ public class GameDisplayController implements Initializable {
             setHintText("Error loading word: " + e.getMessage(), Hints);
             System.out.println("SQL Error in loadNewWord: " + e.getMessage());
         }
+    }
+
+    private void updateHintVisibility() {
+        String level = levelSelector.getValue();
+        Platform.runLater(() -> {
+            // Reset visibility
+            hint1Box.setVisible(false);
+            hint2Box.setVisible(false);
+            hint3Box.setVisible(false);
+
+            // Set visibility based on level
+            switch (level) {
+                case "Hard":
+                    hint1Box.setVisible(true);
+                    break;
+                case "Normal":
+                    hint1Box.setVisible(true);
+                    hint2Box.setVisible(true);
+                    break;
+                case "Easy":
+                    hint1Box.setVisible(true);
+                    hint2Box.setVisible(true);
+                    hint3Box.setVisible(true);
+                    break;
+            }
+        });
     }
 
     private List<Integer> getAvailableWordIDs() throws SQLException {
